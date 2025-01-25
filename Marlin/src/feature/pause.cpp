@@ -155,6 +155,7 @@ static bool ensure_safe_temperature(const bool wait=true, const PauseMode mode=P
 
   // Allow interruption by Emergency Parser M108
   wait_for_heatup = TERN1(PREVENT_COLD_EXTRUSION, !thermalManager.allow_cold_extrude);
+  //Modification of the wait_for_heatup loop, with user clic to skip if too long
   wait_for_user = true;
   while (wait_for_user && wait_for_heatup && ABS(thermalManager.wholeDegHotend(active_extruder) - thermalManager.degTargetHotend(active_extruder)) > (TEMP_WINDOW))
     idle();
@@ -658,8 +659,6 @@ void resume_print(const_float_t slow_load_length/*=0*/, const_float_t fast_load_
 
   // Retract to prevent oozing
   unscaled_e_move(-(PAUSE_PARK_RETRACT_LENGTH), feedRate_t(PAUSE_PARK_RETRACT_FEEDRATE));
-
-  if (toolchange_settings.enable_park_cleaner) gcode.process_subcommands_now(F(TOOLCHANGE_PARK_CLEANER));
 
   if (!axes_should_home()) {
     // Move XY back to saved position

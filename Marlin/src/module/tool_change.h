@@ -41,7 +41,6 @@
     #endif
     #if ENABLED(TOOLCHANGE_PARK)
       bool enable_park;             // M217 W
-      bool enable_park_cleaner = false;      // M217 M
       xyz_pos_t change_point;       // M217 X Y I J K C H O
     #endif
     float z_raise;                  // M217 Z

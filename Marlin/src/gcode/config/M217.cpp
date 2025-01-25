@@ -94,8 +94,6 @@ void GcodeSuite::M217() {
 
   #if ENABLED(TOOLCHANGE_PARK)
     if (parser.seenval('W')) { toolchange_settings.enable_park = parser.value_linear_units(); }
-    if (parser.seenval('M')) { toolchange_settings.enable_park_cleaner = parser.value_linear_units(); }
-
     #if HAS_X_AXIS
       if (parser.seenval('X')) { const int16_t v = parser.value_linear_units(); toolchange_settings.change_point.x = constrain(v, X_MIN_POS, X_MAX_POS); }
     #endif
@@ -193,8 +191,6 @@ void GcodeSuite::M217_report(const bool forReplay/*=true*/) {
 
     #if ENABLED(TOOLCHANGE_PARK)
       SERIAL_ECHOPGM(" W", LINEAR_UNIT(toolchange_settings.enable_park));
-      SERIAL_ECHOPGM(" M", LINEAR_UNIT(toolchange_settings.enable_park_cleaner));
-
       #if NUM_AXES
       {
         SERIAL_ECHOPGM_P(

@@ -40,7 +40,6 @@
  */
 void GcodeSuite::M280() {
 
-  //---------------------------------------
   #if ENABLED(SWITCHING_NOZZLE_TWO_SERVOS)
     if (parser.seenval('H')) {
       const int anew = parser.value_int();
@@ -67,8 +66,6 @@ void GcodeSuite::M280() {
       return;
     }
   #endif
-
-  //-----------------------------------------------------------
 
   if (!parser.seenval('P')) return;
 

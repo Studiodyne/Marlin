@@ -179,7 +179,6 @@ void menu_advanced_settings();
       static constexpr float max_extrude = TERN(PREVENT_LENGTHY_EXTRUDE, EXTRUDE_MAXLENGTH, 500);
       #if ENABLED(TOOLCHANGE_PARK)
         EDIT_ITEM(bool, MSG_FILAMENT_PARK_ENABLED, &toolchange_settings.enable_park);
-        EDIT_ITEM(bool, MSG_FILAMENT_PARK_CLEANER, &toolchange_settings.enable_park_cleaner);
       #endif
       EDIT_ITEM(float3, MSG_FILAMENT_SWAP_LENGTH, &toolchange_settings.swap_length, 0, max_extrude);
       EDIT_ITEM(float41sign, MSG_FILAMENT_SWAP_EXTRA, &toolchange_settings.extra_resume, -10, 10);

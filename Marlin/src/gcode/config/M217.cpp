@@ -75,8 +75,6 @@ void GcodeSuite::M217() {
 
     static constexpr float max_extrude = TERN(PREVENT_LENGTHY_EXTRUDE, EXTRUDE_MAXLENGTH, 500);
 
-    if (parser.seen('Q')) { tool_change_prime(); return; }
-
     if (parser.seenval('S')) { const float v = parser.value_linear_units(); toolchange_settings.swap_length = constrain(v, 0, max_extrude); }
     if (parser.seenval('B')) { const float v = parser.value_linear_units(); toolchange_settings.extra_resume = constrain(v, -10, 10); }
     if (parser.seenval('E')) { const float v = parser.value_linear_units(); toolchange_settings.extra_prime = constrain(v, 0, max_extrude); }
@@ -86,7 +84,7 @@ void GcodeSuite::M217() {
     if (parser.seenval('U')) { const int16_t v = parser.value_linear_units(); toolchange_settings.unretract_speed = constrain(v, 10, 5400); }
     #if TOOLCHANGE_FS_FAN >= 0 && HAS_FAN
       if (parser.seenval('F')) { const uint16_t v = parser.value_ushort(); toolchange_settings.fan_speed = constrain(v, 0, 255); }
-      if (parser.seenval('D')) { const uint16_t v = parser.value_ushort(); toolchange_settings.fan_time = constrain(v, 1, 30); }
+      if (parser.seenval('D')) { const uint16_t v = parser.value_ushort(); toolchange_settings.fan_time = constrain(v, 0, 30); }
     #endif
   #endif
 
@@ -124,6 +122,10 @@ void GcodeSuite::M217() {
 
   #if HAS_Z_AXIS && HAS_TOOLCHANGE
     if (parser.seenval('Z')) { toolchange_settings.z_raise = parser.value_linear_units(); }
+  #endif
+
+  #if ENABLED(TOOLCHANGE_FILAMENT_SWAP)
+    if (parser.seen('Q')) { tool_change_prime(); return; }
   #endif
 
   #if ENABLED(TOOLCHANGE_MIGRATION_FEATURE)

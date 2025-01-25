@@ -37,6 +37,7 @@
 #include "../gcode/gcode.h"
 #include "../module/motion.h"
 #include "../module/planner.h"
+#include "../module/tool_change.h"
 #include "../module/printcounter.h"
 #include "../module/temperature.h"
 
@@ -161,9 +162,12 @@ static bool ensure_safe_temperature(const bool wait=true, const PauseMode mode=P
 
   // Allow interruption by Emergency Parser M108
   wait_for_heatup = TERN1(PREVENT_COLD_EXTRUSION, !thermalManager.allow_cold_extrude);
-  while (wait_for_heatup && ABS(thermalManager.wholeDegHotend(active_extruder) - thermalManager.degTargetHotend(active_extruder)) > (TEMP_WINDOW))
+  //Modification of the wait_for_heatup loop, with user clic to skip if too long
+  wait_for_user = true;
+  while (wait_for_user && wait_for_heatup && ABS(thermalManager.wholeDegHotend(active_extruder) - thermalManager.degTargetHotend(active_extruder)) > (TEMP_WINDOW))
     idle();
   wait_for_heatup = false;
+  wait_for_user = true;
 
   #if ENABLED(PREVENT_COLD_EXTRUSION)
     // A user can cancel wait-for-heating with M108
@@ -417,6 +421,10 @@ bool unload_filament(const_float_t unload_length, const bool show_lcd/*=false*/,
  * Return 'true' if pause was completed, 'false' for abort
  */
 uint8_t did_pause_print = 0;
+bool maintenance_park_enabled = false;
+void maintenance_park_disable(){
+  maintenance_park_enabled = false;
+};
 
 bool pause_print(const_float_t retract, const xyz_pos_t &park_point, const bool show_lcd/*=false*/, const_float_t unload_length/*=0*/ DXC_ARGS) {
   DEBUG_SECTION(pp, "pause_print", true);

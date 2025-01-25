@@ -188,7 +188,7 @@ void menu_advanced_settings();
       EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_PRIME_SPEED, &toolchange_settings.prime_speed, 10, 5400);
       EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_WIPE_RETRACT, &toolchange_settings.wipe_retract, 0, 100);
       EDIT_ITEM_FAST(uint8, MSG_SINGLENOZZLE_FAN_SPEED, &toolchange_settings.fan_speed, 0, 255);
-      EDIT_ITEM_FAST(uint8, MSG_SINGLENOZZLE_FAN_TIME, &toolchange_settings.fan_time, 1, 30);
+      EDIT_ITEM_FAST(uint8, MSG_SINGLENOZZLE_FAN_TIME, &toolchange_settings.fan_time, 0, 30);
     #endif
     EDIT_ITEM(float3, MSG_TOOL_CHANGE_ZLIFT, &toolchange_settings.z_raise, 0, 10);
     END_MENU();
@@ -623,6 +623,11 @@ void menu_configuration() {
       SUBMENU(MSG_TOUCHMI_PROBE, menu_touchmi);
     #endif
   }
+  else {
+    #if HAS_HOTEND_OFFSET
+      SUBMENU(MSG_OFFSETS_MENU, menu_tool_offsets);
+    #endif
+}
 
   #if ENABLED(HOTEND_IDLE_TIMEOUT)
     SUBMENU(MSG_HOTEND_IDLE_TIMEOUT, menu_hotend_idle);
@@ -666,6 +671,9 @@ void menu_configuration() {
 
   #if HAS_FILAMENT_SENSOR
     EDIT_ITEM(bool, MSG_RUNOUT_SENSOR, &runout.enabled, runout.reset);
+    #if NUM_RUNOUT_SENSORS == 2
+      EDIT_ITEM(bool, MSG_RUNOUT_INVERSION, &runout.pin_inversion);
+    #endif
   #endif
 
   #if HAS_FANCHECK

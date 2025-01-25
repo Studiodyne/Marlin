@@ -46,6 +46,8 @@
   #define FLASH_EEPROM_LEVELING
 #endif
 
+#define ENABLE_SPI1
+
 #include "pins_RUMBA32_common.h"
 
 #if HAS_TMC_UART
@@ -67,6 +69,10 @@
   //#define E3_HARDWARE_SERIAL Serial1
   //#define E4_HARDWARE_SERIAL Serial1
 
+  //
+  // Software serial
+  //
+  /*
   #define X_SERIAL_TX_PIN                   PA3
   #define X_SERIAL_RX_PIN                   PC14
 
@@ -84,4 +90,56 @@
 
   #define E2_SERIAL_TX_PIN                  PD12
   #define E2_SERIAL_RX_PIN                  PD1
+  */
+
 #endif
+#undef BTN_PIN
+#undef TEMP_3_PIN
+#undef X_MAX_PIN
+#undef Y_MIN_PIN
+#undef Z_MAX_PIN
+#undef FAN1_PIN
+//PD2
+#undef E2_STEP_PIN
+//PD3
+#undef E2_DIR_PIN
+//PD0
+#undef E2_ENABLE_PIN
+
+
+//Inputs
+#define FIL_RUNOUT_PIN                      PB13 // X_MAX_PIN
+#define FIL_RUNOUT2_PIN                     PB15 // Y_MIN_PIN
+#define FIL_RUNOUT3_PIN                     PC10 // BTN_PIN
+#define CALIBRATION_PIN                     PC2// TEMP_SENSOR_2_PIN
+#define CALIBRATION_PIN_INVERTING true      // Set to true to invert the custom pin
+//#define TEMP_BOARD_PIN                    PC1 // TEMP_SENSOR_2_PIN
+#define TEMP_CHAMBER_PIN                    PC1 // TEMP_SENSOR_2_PIN
+#define TEMP_BOARD_PIN                      PC1 // TEMP_SENSOR_2_PIN
+
+//#define POWER_LOSS_PIN                      PD0 //1 sur driver e2
+#define COOLANT_FLOOD_PIN                   PD2 //7 sur driver e2
+#define COOLANT_MIST_PIN                    PD3 //8 sur driver e2
+
+//Outputs
+#define SERVO0_PIN                          PB8  // i2cbus
+#define SERVO1_PIN                          PB9  // i2cbus
+#define SERVO2_PIN                          PA3  // i2cbus
+//#define SMS_PAUSE_PIN                       PA4  // TEMP_3_PIN
+//#define SMS_STOP_PIN                        PA3  // UART E2
+//#define COOLANT_FLOOD_PIN                   PD10
+//#define COOLANT_MIST_PIN                    PA4
+//#define NEOPIXEL_PIN                        PD14 // UART E0
+//#define FAN3_PIN                            PD15 // UART Z
+#define RGB_LED_R_PIN                       PD12 // UART E2
+#define RGB_LED_G_PIN                       PD13 // UART Z
+#define RGB_LED_B_PIN                       PD14 // UART E0
+#define RGB_LED_W_PIN                       PD15 // UART E1
+
+
+/*#undef ST7920_DELAY_1
+#undef ST7920_DELAY_2
+#undef ST7920_DELAY_2
+#define ST7920_DELAY_1 DELAY_NS(200) // After CLK LOW
+#define ST7920_DELAY_2 DELAY_NS(400) // After DAT
+#define ST7920_DELAY_3 DELAY_NS(200) // After CLK HIGH*/

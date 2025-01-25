@@ -31,6 +31,7 @@
 #include "../../../module/motion.h"
 #include "../../../module/printcounter.h"
 #include "../../../sd/cardreader.h"
+#include "../../../MarlinCore.h" // for idle, kill
 
 #if ENABLED(POWER_LOSS_RECOVERY)
   #include "../../../feature/powerloss.h"
@@ -57,10 +58,15 @@
  *    W<pos>    = Override park position W (requires AXIS*_NAME 'W')
  *    Z<linear> = Override Z raise
  *
+ *    //Park + unlocked LCD ( all menus available for maintenance during printing )
+ *    T<linear> = Maintenance park, if a value, add beeps each 'value' seconds (requires LCD to resume)
+ *
  *  With an LCD menu:
  *    P<bool>   = Always show a prompt and await a response
  */
+
 void GcodeSuite::M125() {
+  if (maintenance_park_enabled) return;
   // Initial retract before move to filament change position
   const float retract = TERN0(HAS_EXTRUDERS, -ABS(parser.axisunitsval('L', E_AXIS, PAUSE_PARK_RETRACT_LENGTH)));
 
@@ -88,17 +94,33 @@ void GcodeSuite::M125() {
     park_point += hotend_offset[active_extruder];
   #endif
 
-  const bool sd_printing = IS_SD_PRINTING();
+  //Maintenance park
+  if (parser.seen('T')) {
+    if (ENABLED(HAS_MARLINUI_MENU)){
+      //show_m125t(1);
+      ui.set_status("Maintenance !");
+      maintenance_park_enabled = true;
+      const bool show_lcd = false;
+      if (pause_print(retract, park_point, show_lcd, 0)) {
+        while(maintenance_park_enabled) idle();
+      }
+      resume_print(0, 0, ADVANCED_PAUSE_PURGE_LENGTH * 2, 0);
+    }
+  }
+  else  {
 
-  ui.pause_show_message(PAUSE_MESSAGE_PARKING, PAUSE_MODE_PAUSE_PRINT);
+    const bool sd_printing = IS_SD_PRINTING();
 
-  // If possible, show an LCD prompt with the 'P' flag
-  const bool show_lcd = TERN0(HAS_MARLINUI_MENU, parser.boolval('P'));
+    ui.pause_show_message(PAUSE_MESSAGE_PARKING, PAUSE_MODE_PAUSE_PRINT);
 
-  if (pause_print(retract, park_point, show_lcd, 0)) {
-    if (ENABLED(HAS_DISPLAY) || ALL(EMERGENCY_PARSER, HOST_PROMPT_SUPPORT) || !sd_printing || show_lcd) {
-      wait_for_confirmation(false, 0);
-      resume_print(0, 0, -retract, 0);
+    // If possible, show an LCD prompt with the 'P' flag
+    const bool show_lcd = TERN0(HAS_MARLINUI_MENU, parser.boolval('P'));
+
+    if (pause_print(retract, park_point, show_lcd, 0)) {
+      if (ENABLED(HAS_DISPLAY) || ALL(EMERGENCY_PARSER, HOST_PROMPT_SUPPORT) || !sd_printing || show_lcd) {
+        wait_for_confirmation(false, 0);
+        resume_print(0, 0, -retract, 0);
+      }
     }
   }
 }

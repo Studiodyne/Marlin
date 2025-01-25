@@ -244,6 +244,12 @@ namespace LanguageNarrow_fr {
   LSTR MSG_STORED_FAN_N                   = _UxGT("Vit.  enreg.  ~");
   LSTR MSG_EXTRA_FAN_SPEED                = _UxGT("Extra ventil.  ");
   LSTR MSG_EXTRA_FAN_SPEED_N              = _UxGT("Extra ventil. ~");
+  LSTR MSG_OFFSET_FAN_SPEED               = _UxGT("Ventil. sup ~");
+  LSTR MSG_OFFSET_MIN_FAN_SPEED           = _UxGT("Seuil min ~");
+  LSTR MSG_OFFSET_MAX_FAN_SPEED           = _UxGT("Seuil max ~");
+  LSTR MSG_OFFSET_FAN_SPEED_N             = _UxGT("Ventil. sup ~");
+  LSTR MSG_OFFSET_MIN_FAN_SPEED_N         = _UxGT("Seuil min ~");
+  LSTR MSG_OFFSET_MAX_FAN_SPEED_N         = _UxGT("Seuil max ~");
 
   LSTR MSG_FLOW                           = _UxGT("Flux");
   LSTR MSG_FLOW_N                         = _UxGT("Flux ~");
@@ -372,6 +378,7 @@ namespace LanguageNarrow_fr {
   LSTR MSG_SINGLENOZZLE_WIPE_RETRACT      = _UxGT("Purge Retract");
   LSTR MSG_SINGLENOZZLE_RETRACT_SPEED     = _UxGT("Vitesse rétract") LCD_STR_DEGREE;
   LSTR MSG_FILAMENT_PARK_ENABLED          = _UxGT("Garer Extrudeur");
+  LSTR MSG_FILAMENT_PARK_CLEANER          = _UxGT("Park Cleaner");
   LSTR MSG_SINGLENOZZLE_UNRETRACT_SPEED   = _UxGT("Vitesse reprise");
   LSTR MSG_SINGLENOZZLE_FAN_SPEED         = _UxGT("Vit.  ventil.");
   LSTR MSG_SINGLENOZZLE_FAN_TIME          = _UxGT("Temps ventil.");
@@ -426,6 +433,7 @@ namespace LanguageNarrow_fr {
   LSTR MSG_ZPROBE_XOFFSET                 = _UxGT("Décalage X");
   LSTR MSG_ZPROBE_YOFFSET                 = _UxGT("Décalage Y");
   LSTR MSG_ZPROBE_ZOFFSET                 = _UxGT("Décalage Z");
+  LSTR MSG_ZPROBE_ZOFFSET2                = _UxGT("Décalage Z2");
   LSTR MSG_ZPROBE_OFFSET_N                = _UxGT("Décalage @");
   LSTR MSG_BABYSTEP_PROBE_Z               = _UxGT("Babystep sonde Z");
   LSTR MSG_BABYSTEP_X                     = _UxGT("Babystep X");
@@ -507,6 +515,7 @@ namespace LanguageNarrow_fr {
   LSTR MSG_FILAMENT_CHANGE_OPTION_RESUME  = _UxGT("Reprendre impr.");
   LSTR MSG_FILAMENT_CHANGE_NOZZLE         = _UxGT("  Buse: ");
   LSTR MSG_RUNOUT_SENSOR                  = _UxGT("Capteur fil.");
+  LSTR MSG_RUNOUT_INVERSION               = _UxGT("Inv capteur.");
   LSTR MSG_KILL_HOMING_FAILED             = _UxGT("Echec origine");
   LSTR MSG_LCD_PROBING_FAILED             = _UxGT("Echec sonde");
 

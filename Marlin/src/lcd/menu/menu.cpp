@@ -330,7 +330,8 @@ void scroll_screen(const uint8_t limit, const bool is_menu) {
       }
       else {
         #if ENABLED(BABYSTEP_HOTEND_Z_OFFSET)
-          MenuEditItemBase::draw_edit_screen(GET_TEXT_F(MSG_HOTEND_OFFSET_Z), ftostr54sign(hotend_offset[active_extruder].z));
+          MenuEditItemBase::draw_edit_screen(GET_TEXT_F(MSG_ZPROBE_ZOFFSET), BABYSTEP_TO_STR(hotend_offset[active_extruder].z));
+          TERN_(BABYSTEP_GFX_OVERLAY, ui.zoffset_overlay(hotend_offset[active_extruder].z));
         #endif
       }
     }

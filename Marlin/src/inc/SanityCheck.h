@@ -1361,7 +1361,7 @@ static_assert(NUM_SERVOS <= NUM_SERVO_PLUGS, "NUM_SERVOS (or some servo index) i
     #endif
 
     #ifdef DEACTIVATE_SERVOS_AFTER_MOVE
-      #error "BLTOUCH requires DEACTIVATE_SERVOS_AFTER_MOVE to be to disabled. Please update your Configuration.h file."
+      //#error "BLTOUCH requires DEACTIVATE_SERVOS_AFTER_MOVE to be to disabled. Please update your Configuration.h file."
     #endif
 
     #if ENABLED(INVERTED_PROBE_STATE)

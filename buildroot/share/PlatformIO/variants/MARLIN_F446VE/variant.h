@@ -114,7 +114,7 @@ extern "C" {
 #define NUM_ANALOG_INPUTS       16
 
 // PWM resolution
-#define PWM_FREQUENCY           20000 // >= 20 Khz => inaudible noise for fans
+#define PWM_FREQUENCY           75 // >= 20 Khz => inaudible noise for fans
 #define PWM_MAX_DUTY_CYCLE      255
 
 // On-board LED pin number

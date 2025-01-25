@@ -104,8 +104,8 @@ typedef struct LEDColor {
   #define LEDColorOrange()        LEDColor(255,  25,   0)
   #define LEDColorYellow()        LEDColor(255,  75,   0)
 #else
-  #define LEDColorOrange()        LEDColor(255,  80,   0)
-  #define LEDColorYellow()        LEDColor(255, 255,   0)
+  #define LEDColorOrange()        LEDColor(255,  50,   0)
+  #define LEDColorYellow()        LEDColor(255, 123,   0)
 #endif
 #define LEDColorGreen()           LEDColor(  0, 255,   0)
 #define LEDColorBlue()            LEDColor(  0,   0, 255)

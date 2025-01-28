@@ -1340,7 +1340,7 @@
 #if ENABLED(CALIBRATION_GCODE)
 
   #define CALIBRATION_SCRIPT_PRE  "M117 Auto-Calibration "
-  #define CALIBRATION_SCRIPT_POST "M500\nM117 Calibration Ok!"
+  #define CALIBRATION_SCRIPT_POST "G27\nM280C\nM500\nM117 Calibration Ok!"
   #define CALIBRATION_ALLOW_CORE_AXES  // Experimental
   #define CALIBRATION_TOOLCHANGE_FEATURE_DISABLED // Disable prime, swap, moves and park during calibration
 
@@ -4067,11 +4067,11 @@
   //#define CUSTOM_MENU_MAIN_ONLY_IDLE         // Only show custom menu when the machine is idle
 
   #define MAIN_MENU_ITEM_1_DESC "Homing"
-  #define MAIN_MENU_ITEM_1_GCODE "G28"
-  #define MAIN_MENU_ITEM_1_CONFIRM          // Show a confirmation dialog before this action
+  #define MAIN_MENU_ITEM_1_GCODE "G425S\nG28"
+  #define MAIN_MENU_ITEM_1_CONFIRM // Show a confirmation dialog before this action
 
   #define MAIN_MENU_ITEM_2_DESC "PLA/PVA"
-  #define MAIN_MENU_ITEM_2_GCODE "M140 S85\nM104 T0 S210\nM104 T1 S190"
+  #define MAIN_MENU_ITEM_2_GCODE "G425S\nM140 S85\nM104 T0 S210\nM104 T1 S190"
   #define MAIN_MENU_ITEM_2_CONFIRM
 
   #define MAIN_MENU_ITEM_3_DESC "Retract 0"
@@ -4114,23 +4114,31 @@
   #define MAIN_MENU_ITEM_12_GCODE "M280 H0"
   //#define MAIN_MENU_ITEM_5_CONFIRM
 
-  #define MAIN_MENU_ITEM_13_DESC "PARK"
-  #define MAIN_MENU_ITEM_13_GCODE "G27"
+  #define MAIN_MENU_ITEM_13_DESC "Tools Invertion"
+  #define MAIN_MENU_ITEM_13_GCODE "M280 I"
   //#define MAIN_MENU_ITEM_13_CONFIRM
 
-  #define MAIN_MENU_ITEM_14_DESC "Nettoyage lignes x2"
+  #define MAIN_MENU_ITEM_14_DESC "Full Clean lines"
   #define MAIN_MENU_ITEM_14_GCODE "G60\nG27\nM280 H0\nG12 P0\nM280 C\nG61F14400"
   //#define MAIN_MENU_ITEM_18_CONFIRM
 
-  #define MAIN_MENU_ITEM_15_DESC "Nettoyage triangles x2"
+  #define MAIN_MENU_ITEM_15_DESC "Full Clean Triangles"
   #define MAIN_MENU_ITEM_15_GCODE "G60\nG27\nM280 H0\nG12\nM280 C\nG61F14400"
   //#define MAIN_MENU_ITEM_18_CONFIRM
 
+  #define MAIN_MENU_ITEM_16_DESC "PARK"
+  #define MAIN_MENU_ITEM_16_GCODE "G27"
+  //#define MAIN_MENU_ITEM_16_CONFIRM
+
   #define MAIN_MENU_ITEM_17_DESC "Calibration"
-  #define MAIN_MENU_ITEM_17_GCODE "G425"
+  #define MAIN_MENU_ITEM_17_GCODE "G425S\nM104 T1 S220\nM104 T0 S220\nM109 T1 S220\nM109 T0 S220\nG425\nM104 T1 S0\nM104 T0 S0"
   //#define MAIN_MENU_ITEM_17_CONFIRM
 
-  #define MAIN_MENU_ITEM_19_DESC "Nettoyage en cours"
+  #define MAIN_MENU_ITEM_18_DESC "Homing"
+  #define MAIN_MENU_ITEM_18_GCODE "G28"
+  //#define MAIN_MENU_ITEM_1_CONFIRM // Show a confirmation dialog before this action
+
+  #define MAIN_MENU_ITEM_19_DESC "Clean one realtime"
   #define MAIN_MENU_ITEM_19_GCODE "G60\nG10\nG91\nG0Z5\nG90\nG12P0\nG91\nG0Z-5\nG90\nG11\nG61F14400"
   //#define MAIN_MENU_ITEM_19_CONFIRM
 

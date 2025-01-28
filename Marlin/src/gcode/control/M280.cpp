@@ -67,6 +67,19 @@ void GcodeSuite::M280() {
     }
   #endif
 
+  #if ENABLED(SWITCHING_NOZZLE_TWO_SERVOS)
+    if (parser.seen('I')) {
+      static bool servo_inversion;
+      servo[servo_inversion? SWITCHING_NOZZLE_SERVO_NR : SWITCHING_NOZZLE_E1_SERVO_NR ].move(servo_angles[SWITCHING_NOZZLE_SERVO_NR][1]);
+      servo[servo_inversion? SWITCHING_NOZZLE_E1_SERVO_NR : SWITCHING_NOZZLE_SERVO_NR ].move(servo_angles[SWITCHING_NOZZLE_SERVO_NR][0]);
+      servo[SWITCHING_NOZZLE_SERVO_NR].detach();
+      servo[SWITCHING_NOZZLE_E1_SERVO_NR].detach();
+      servo_inversion = !servo_inversion ;
+      return;
+    }
+  #endif
+
+
   if (!parser.seenval('P')) return;
 
   TERN_(POLARGRAPH, planner.synchronize());

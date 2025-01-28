@@ -293,8 +293,18 @@ Nozzle nozzle;
         #define NOZZLE_PARK_MOVE 0
       #endif
       constexpr feedRate_t fr_xy = NOZZLE_PARK_XY_FEEDRATE;
+
+      //Random park position (Between range possibility)
+      xyz_pos_t rand_park = park,
+                rand_start[HOTENDS] = NOZZLE_CLEAN_START_POINT,
+                rand_end[HOTENDS] = NOZZLE_CLEAN_END_POINT;
+      if (active_extruder == 0) rand_end[0].x = rand_end[1].x - hotend_offset[1].x;
+      if (active_extruder == 1) rand_start[1].x = rand_start[0].x + hotend_offset[1].x;
+      rand_park.x = random(rand_start[active_extruder].x , rand_end[active_extruder].x-5);
+      NOLESS(rand_park.x, active_extruder?X_MIN_POS+hotend_offset[active_extruder]:X_MIN_POS);
+
       switch (NOZZLE_PARK_MOVE) {
-        case 0: do_blocking_move_to_xy(park, fr_xy); break;
+        case 0: do_blocking_move_to_xy(rand_park, fr_xy); break;
         case 1: do_blocking_move_to_x(park.x, fr_xy); break;
         case 2: do_blocking_move_to_y(park.y, fr_xy); break;
         case 3: do_blocking_move_to_x(park.x, fr_xy);

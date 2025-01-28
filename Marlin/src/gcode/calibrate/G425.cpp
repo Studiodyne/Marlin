@@ -851,8 +851,8 @@ inline void calibrate_all() {
   // Do a slow and precise calibration of the toolheads
   calibrate_all_toolheads(m, CALIBRATION_MEASUREMENT_UNCERTAIN);
 
-  current_position.x = X_CENTER;
-  calibration_move();         // Park nozzle away from calibration object
+  //current_position.x = X_CENTER;
+  //calibration_move();         // Park nozzle away from calibration object
 }
 
 /**
@@ -866,6 +866,11 @@ inline void calibrate_all() {
  *   no args     - Perform entire calibration sequence (backlash + position on all toolheads)
  */
 void GcodeSuite::G425() {
+  if (parser.seen('S')) {
+    ui.return_to_status();
+    return;
+  }
+
 
   if (parser.seen('I') || parser.seen('J') || parser.seen('K') || parser.seen('X') || parser.seen('Y') || parser.seen('Z') || parser.seen('R') ) {
       true_center.x =  parser.floatval('X', true_center.x);//STEEVE
@@ -893,6 +898,7 @@ void GcodeSuite::G425() {
     servo_angles[SWITCHING_NOZZLE_SERVO_NR][1] = angle0;
     servo_angles[SWITCHING_NOZZLE_E1_SERVO_NR][1] = angle00;
 
+    ui.return_to_status();
     process_subcommands_now(F("M117 PIN TEST !"));
     while (READ(CALIBRATION_PIN) == CALIBRATION_PIN_INVERTING) idle();
 
@@ -904,7 +910,7 @@ void GcodeSuite::G425() {
     process_subcommands_now(F(CALIBRATION_SCRIPT_PRE));
   #endif
 
-  if (homing_needed_error()) return;
+  if (homing_needed_error()) gcode.process_subcommands_now(F("G28"));
 
   TEMPORARY_BED_LEVELING_STATE(false);
   SET_SOFT_ENDSTOP_LOOSE(true);
@@ -944,17 +950,15 @@ void GcodeSuite::G425() {
 
   SET_SOFT_ENDSTOP_LOOSE(false);
 
-  #ifdef CALIBRATION_SCRIPT_POST
-    process_subcommands_now(F(CALIBRATION_SCRIPT_POST));
-  #endif
-
-
   #if ENABLED(CALIBRATION_TOOLCHANGE_FEATURE_DISABLED)
     servo_angles[SWITCHING_NOZZLE_SERVO_NR][1] = angle1;
     servo_angles[SWITCHING_NOZZLE_E1_SERVO_NR][1] = angle11;
     tool_change(stored_active_extruder);
-    gcode.process_subcommands_now(F("M280 C"));
     RESTORE(tmp);
+  #endif
+
+  #ifdef CALIBRATION_SCRIPT_POST
+    process_subcommands_now(F(CALIBRATION_SCRIPT_POST));
   #endif
 
 }
